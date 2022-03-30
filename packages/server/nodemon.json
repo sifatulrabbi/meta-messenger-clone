@@ -1,0 +1,6 @@
+{
+    "watch": ["src", ".env.local", ".env.example"],
+    "ext": ".ts",
+    "ignore": ["build"],
+    "exec": "ts-node src/index.ts"
+}
