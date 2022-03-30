@@ -12,7 +12,7 @@ export const Header: React.FC = () => {
                 <div className="bg-gray-200 h-10 w-10 rounded-full flex justify-center items-center">
                     <FaUser className="text-2xl text-gray-400" />
                 </div>
-                <span className="font-bold text-lg">{title}</span>
+                <span className="font-bold text-lg font-primary">{title}</span>
             </div>
         </header>
     );
