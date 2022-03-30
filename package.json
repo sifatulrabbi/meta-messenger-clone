@@ -1,0 +1,21 @@
+{
+    "name": "messenger-clone",
+    "version": "0.0.1",
+    "description": "Meta Messenger clone",
+    "author": {
+        "name": "Md Sifatul Islam Rabbi",
+        "email": "mdsiftulislam.rabbi@gmail.com",
+        "url": "https://sifatulrabbi.github.io"
+    },
+    "license": "MIT",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "start:server": "yarn workspace server start",
+        "start:server:dev": "yarn workspace server start:dev",
+        "start:client": "yarn workspace client start",
+        "start:client:dev": "yarn workspace client start:dev"
+    }
+}
