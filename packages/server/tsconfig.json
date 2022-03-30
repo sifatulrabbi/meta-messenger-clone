@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "allowJs": false,
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "outDir": "./build",
+        "rootDir": "./src",
+        "skipLibCheck": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "incremental": true,
+        "strictNullChecks": true,
+        "noFallthroughCasesInSwitch": true,
+        "allowSyntheticDefaultImports": true,
+        "alwaysStrict": true
+    },
+    "include": ["./src", "./src/**/*.d.ts"],
+    "exclude": ["node_modules", "build"]
+}
