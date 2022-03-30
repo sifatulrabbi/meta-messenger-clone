@@ -18,7 +18,9 @@ const Home: NextPage<Props> = ({}) => {
                     <ConversationCard
                         key={v4()}
                         name={"Username"}
-                        peek={"some message"}
+                        peek={
+                            "Message that was sent previously. This is a example of a long message"
+                        }
                         unread={item % 2 === 0}
                         timestamp={"09:30 am"}
                         active={item % 2 === 0}
