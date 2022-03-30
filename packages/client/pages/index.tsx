@@ -12,6 +12,7 @@ const Home: NextPage<Props> = ({}) => {
             <Head title={"Home"} />
             <SearchScreen />
             <ActiveUsersSection />
+            <section></section>
         </div>
     );
 };
