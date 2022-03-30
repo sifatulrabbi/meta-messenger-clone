@@ -9,7 +9,7 @@ interface Props {
 
 const Home: NextPage<Props> = ({}) => {
     return (
-        <div className="mt-[80px]">
+        <div className="mt-[80px] mx-container">
             <Head title={"Home"} />
             <SearchScreen />
             <ActiveUsersSection />

@@ -4,7 +4,7 @@ import { FaTwitter, FaGithubAlt, FaFacebook } from "react-icons/fa";
 
 export const Footer: React.FC = () => {
     return (
-        <footer className="text-xs text-gray-700 flex flex-col justify-center items-center m-4 pt-4 border-t-[1px] border-gray-300">
+        <footer className="mx-container text-xs text-gray-700 flex flex-col justify-center items-center m-4 pt-4 border-t-[1px] border-gray-300">
             <span>Build with Next.js and TypeScript</span>
             <span>
                 by{" "}
