@@ -1,1 +1,1 @@
-export * from "./header.selector";
+export * from "./auth.selector";

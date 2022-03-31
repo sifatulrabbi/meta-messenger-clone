@@ -3,14 +3,20 @@ import "../styles/globals.css";
 import { Header, Footer } from "../features";
 import { RecoilRoot } from "recoil";
 
-function MyApp({ Component, pageProps }: AppProps) {
+const ProtectedRoutes: React.FC<{ children: any }> = ({ children }) => {
+    return <>{children}</>;
+};
+
+function App({ Component, pageProps }: AppProps) {
     return (
         <RecoilRoot>
             <Header />
-            <Component {...pageProps} />
+            <ProtectedRoutes>
+                <Component {...pageProps} />
+            </ProtectedRoutes>
             <Footer />
         </RecoilRoot>
     );
 }
 
-export default MyApp;
+export default App;
