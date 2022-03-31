@@ -37,7 +37,7 @@ export const ConversationCard: React.FC<Props> = ({
                     </span>
                 </div>
                 <span
-                    className={`max-w-[60vw] text-left overflow-hidden whitespace-nowrap text-ellipsis ${
+                    className={`max-w-[70vw] text-left overflow-hidden whitespace-nowrap text-ellipsis ${
                         unread ? "text-black font-medium" : "text-gray-700"
                     }`}
                 >
