@@ -1,0 +1,31 @@
+create table messages (
+    id serial primary key,
+    sender_id varchar(64) not null,
+    receiver_id varchar(64) not null,
+    body TEXT not null,
+    sent_date DATE not null,
+    received_date DATE not null
+);
+
+create table users (
+    id varchar(64) unique not null,
+    name varchar(100) not null,
+    bio varchar(250) not null,
+    created_at date not null,
+    updated_at date not null,
+    avatar varchar
+);
+
+create table conversations (
+    id serial primary key,
+    participants varchar[] not null,
+    created_at date not null
+);
+
+create table groups (
+    id serial primary key,
+    name varchar(100) not null,
+    participants varchar[] not null,
+    avatar varchar,
+    created_at date not null,
+);

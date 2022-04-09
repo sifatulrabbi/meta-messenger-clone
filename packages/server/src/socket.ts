@@ -25,6 +25,8 @@ export class Socket {
         });
     }
 
+    sendMessage() {}
+
     start() {
         this.io.listen(config.PORT);
         this.io.on("connection", (socket) => {
