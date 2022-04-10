@@ -6,6 +6,7 @@ import {
     IServerToClientEvents,
     IInterServerEvents,
     ISocketData,
+    IMessage,
 } from "./interfaces";
 
 export class Socket {
@@ -25,7 +26,9 @@ export class Socket {
         });
     }
 
-    sendMessage() {}
+    sendMessage(message: IMessage) {
+        console.log(message);
+    }
 
     start() {
         this.io.listen(config.PORT);
@@ -35,6 +38,7 @@ export class Socket {
             socket.on("talk", (msg) => {
                 console.log(msg);
             });
+            socket.on("send_message", this.sendMessage);
         });
     }
 }

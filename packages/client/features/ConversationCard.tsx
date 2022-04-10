@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { ConversationAvatar } from "../components";
 
@@ -17,33 +18,39 @@ export const ConversationCard: React.FC<Props> = ({
     active,
 }) => {
     return (
-        <button className="flex flex-row w-full justify-start items-center gap-4 py-3 px-4 hover:bg-gray-50">
-            <ConversationAvatar active={active} />
-            <div className="flex w-full flex-col justify-start items-start text-sm">
-                <div className="w-full flex justify-between items-center mb-1">
+        <Link href="/conversation/id">
+            <a className="flex flex-row w-full justify-start items-center gap-4 py-3 px-4 hover:bg-gray-50">
+                <ConversationAvatar active={active} />
+                <div className="flex w-full flex-col justify-start items-start text-sm">
+                    <div className="w-full flex justify-between items-center mb-1">
+                        <span
+                            className={`font-primary ${
+                                unread
+                                    ? "text-black font-bold"
+                                    : "text-gray-700"
+                            }`}
+                        >
+                            {name}
+                        </span>
+                        <span
+                            className={`text-xs ${
+                                unread
+                                    ? "text-black font-bold"
+                                    : "text-gray-700"
+                            }`}
+                        >
+                            {timestamp}
+                        </span>
+                    </div>
                     <span
-                        className={`font-primary ${
-                            unread ? "text-black font-bold" : "text-gray-700"
+                        className={`max-w-[70vw] text-left overflow-hidden whitespace-nowrap text-ellipsis ${
+                            unread ? "text-black font-medium" : "text-gray-700"
                         }`}
                     >
-                        {name}
-                    </span>
-                    <span
-                        className={`text-xs ${
-                            unread ? "text-black font-bold" : "text-gray-700"
-                        }`}
-                    >
-                        {timestamp}
+                        {peek}
                     </span>
                 </div>
-                <span
-                    className={`max-w-[70vw] text-left overflow-hidden whitespace-nowrap text-ellipsis ${
-                        unread ? "text-black font-medium" : "text-gray-700"
-                    }`}
-                >
-                    {peek}
-                </span>
-            </div>
-        </button>
+            </a>
+        </Link>
     );
 };

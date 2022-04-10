@@ -1,6 +1,6 @@
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
-import { Header, Footer } from "../features";
+import { Header } from "../features";
 import { RecoilRoot } from "recoil";
 
 const ProtectedRoutes: React.FC<{ children: any }> = ({ children }) => {
@@ -14,7 +14,6 @@ function App({ Component, pageProps }: AppProps) {
             <ProtectedRoutes>
                 <Component {...pageProps} />
             </ProtectedRoutes>
-            <Footer />
         </RecoilRoot>
     );
 }
