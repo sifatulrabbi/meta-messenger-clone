@@ -3,3 +3,9 @@ export interface IMessage {
     receiver_id: string;
     body: string;
 }
+
+export interface IAuthState {
+    isAuthenticated: boolean;
+    user: null | any;
+    token: null | string;
+}
