@@ -1,15 +1,16 @@
 import * as http from "http";
-import { Socket } from "./socket";
+import { SocketServer } from "./socket";
 import { config } from "./configs";
 import { connectDb } from "./db";
+import { app } from "./api/app";
 
-export const server = http.createServer();
-const socket = new Socket(server);
+export const server = http.createServer(app);
+const socket = new SocketServer(server);
 
 export async function startServer() {
     await connectDb();
-    socket.start();
     server.listen(config.PORT, () => {
         console.log(server.address());
+        socket.start();
     });
 }
