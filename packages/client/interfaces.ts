@@ -4,6 +4,9 @@ export interface IMessage {
     sender_id: string;
     receiver_id: string;
     body: string;
+    conversation_id: string;
+    sent_at: Date;
+    received_at: Date;
 }
 
 export interface IAuthState {
@@ -17,6 +20,24 @@ export interface IHeaderState {
     avatar: null | string;
     returnHome: boolean;
     info: boolean;
+}
+
+// user object interface
+export interface IUser {
+    id: string;
+    name: string;
+    email: string;
+    created_at: string;
+    updated_at: string;
+    avatar?: string;
+}
+
+// active user interface
+export type IActiveUser = Pick<IUser, "id" | "name">;
+
+// interface for socketState's data
+export interface ISocketState {
+    activeUsers: IActiveUser[];
 }
 
 // interface of the payload of the message events of socket
@@ -39,3 +60,11 @@ export interface IServerToClientEvents {
 }
 
 export type ISocket = Socket<IServerToClientEvents, IClientToServerEvents>;
+
+// conversation interface
+export interface IConversation {
+    id: string;
+    participants: [person_one: string, person_two: string];
+    created_at: Date;
+    messages: IMessage[];
+}

@@ -1,5 +1,4 @@
 import * as http from "http";
-import { startIO } from "./socket";
 import { config } from "./configs";
 import { connectDb } from "./db";
 import { app } from "./api/app";
@@ -22,5 +21,4 @@ export async function startServer() {
     server.listen(config.PORT, () => {
         console.log(server.address());
     });
-    startIO();
 }
