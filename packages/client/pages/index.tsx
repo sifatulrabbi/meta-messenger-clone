@@ -1,3 +1,4 @@
+import React from "react";
 import type { NextPage, NextPageContext } from "next";
 import {
     ActiveUsersSection,
@@ -7,12 +8,26 @@ import {
 } from "../features";
 import { SearchScreen } from "../features/SearchScreen";
 import { v4 } from "uuid";
+import { useSetRecoilState } from "recoil";
+import { headerState } from "../states";
 
 interface Props {
     message: string;
 }
 
 const Home: NextPage<Props> = ({}) => {
+    const setState = useSetRecoilState(headerState);
+
+    // set default headerState at the page load
+    React.useEffect(() => {
+        setState({
+            title: "TT Chat",
+            avatar: null,
+            info: false,
+            returnHome: false,
+        });
+    }, [setState]);
+
     return (
         <>
             <Head title={"Home"} />
