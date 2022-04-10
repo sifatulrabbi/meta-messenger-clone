@@ -1,35 +1,37 @@
 import { IIOServer, ISocket } from "./interfaces";
 
-/**
- * Handler for message events
- */
-function handleMessages(io: IIOServer, socket: ISocket): void {
-  // Handle user sent messages
-  socket.on("message:send", (payload) => {
-    console.log(payload);
-  });
-}
-
-/**
- * Handler for room events
- */
-function handleRooms(io: IIOServer, socket: ISocket): void {
-  // Handle join room request
-  socket.on("room:join", (payload) => {
-    console.log(payload);
-  });
-}
-
 export function socketHandlers(io: IIOServer, socket: ISocket) {
   console.log(`New user connected, ID: ${socket.id}`);
 
-  /**
-   * Handle message events
-   */
-  handleMessages(io, socket);
+  // Listen to the message:send event and get the payload
+  socket.on("message:send", (payload) => {
+    console.log(payload);
+    // send a reply to the user
+    socket.emit("message:incoming", {
+      receiver_id: "user_id_one",
+      sender_id: "server",
+      body: "Thanks for the message",
+    });
+  });
 
-  /**
-   * Handle room events
-   */
-  handleRooms(io, socket);
+  // Listen to the room messages
+  socket.on("message:room", (payload) => {
+    socket.to(payload.receiver_id).emit("message:incoming", {
+      sender_id: payload.sender_id,
+      receiver_id: payload.receiver_id,
+      body: payload.body,
+    });
+  });
+
+  // Listen to the room:join event and get the payload
+  socket.on("room:join", (payload) => {
+    // join the user to the room
+    socket.join(payload.room);
+    // send a welcome message to the room
+    socket.to(payload.room).emit("message:incoming", {
+      sender_id: "server",
+      receiver_id: payload.room,
+      body: `${payload.user} joined the room!`,
+    });
+  });
 }

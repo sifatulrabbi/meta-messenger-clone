@@ -1,11 +1,8 @@
 import type { Server, Socket } from "socket.io";
 import type { IMessagePayload } from "./messages.interface";
 
-/**
- * room:join event's payload
- */
-export interface IJoinRoom {
-  name: string;
+export interface IJoinReqPayload {
+  room: string;
   user: string;
 }
 
@@ -13,18 +10,15 @@ export interface IJoinRoom {
 export interface IClientToServerEvents {
   // message event for sending message
   "message:send": (payload: IMessagePayload) => void;
-  // greeting event for test purpose
-  greeting: (msg: string) => void;
-  /**
-   * Room events
-   */
-
+  // send message in the rooms
+  "message:room": (payload: IMessagePayload) => void;
   // join room event
-  "room:join": (payload: IJoinRoom) => void;
+  "room:join": (payload: IJoinReqPayload) => void;
 }
 
 // server to client events interface
 export interface IServerToClientEvents {
+  // send message to the client event
   "message:incoming": (payload: IMessagePayload) => void;
   active_contacts: (list: string[]) => void;
 }
@@ -36,7 +30,6 @@ export interface IInterServerEvents {
 
 export interface ISocketData {
   name: string;
-  id: string;
 }
 
 // socket server interface for using throughout the application

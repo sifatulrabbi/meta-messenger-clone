@@ -47,9 +47,12 @@ export type IMessagePayload = Pick<
 >;
 
 export interface IClientToServerEvents {
+  // send message event
   "message:send": (payload: IMessagePayload) => void;
-  // greeting event for test purpose
-  greeting: (msg: string) => void;
+  // room join request event
+  "room:join": (payload: IJoinReqPayload) => void;
+  // send message in the room
+  "message:room": (payload: IMessagePayload) => void;
 }
 
 // server to client events interface
@@ -67,4 +70,9 @@ export interface IConversation {
   participants: [person_one: string, person_two: string];
   created_at: Date;
   messages: IMessage[];
+}
+
+export interface IJoinReqPayload {
+  room: string;
+  user: string;
 }
