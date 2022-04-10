@@ -5,8 +5,9 @@ import { io } from "../server";
 // onConnection handlers for handling events
 function onConnection(socket: ISocket): void {
     socket.emit("welcome", "Hello new user", socket.id);
-    // add the messagesHandler function
+    // add handle messages function
     messagesHandler(io, socket);
+    // add handle active contacts function
     activeContactsHandler(io, socket);
 }
 
