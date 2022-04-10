@@ -1,1 +1,2 @@
-export * from "./MessageHandlers";
+export * from "./messageHandlers";
+export * from "./activeContacts.handler";
