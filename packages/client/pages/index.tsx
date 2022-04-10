@@ -1,63 +1,112 @@
+// dependencies
 import React from "react";
-import type { NextPage, NextPageContext } from "next";
-import {
-    ActiveUsersSection,
-    ConversationCard,
-    Head,
-    Footer,
-} from "../features";
-import { SearchScreen } from "../features/SearchScreen";
-import { v4 } from "uuid";
-import { useSetRecoilState } from "recoil";
-import { headerState } from "../states";
+import type { NextPage } from "next";
+import { io } from "socket.io-client";
+import { IMessagePayload, ISocket } from "../interfaces";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { roomState, socketState } from "../states";
 
-interface Props {
-    message: string;
-}
+// components
+import { MessageView, Header } from "../components";
 
-const Home: NextPage<Props> = ({}) => {
-    const setState = useSetRecoilState(headerState);
+const socket: ISocket = io("http://localhost:8080");
 
-    // set default headerState at the page load
-    React.useEffect(() => {
-        setState({
-            title: "TT Chat",
-            avatar: null,
-            info: false,
-            returnHome: false,
-        });
-    }, [setState]);
+const Home: NextPage = () => {
+  // react states
+  const [message, setMessage] = React.useState("");
+  const [messages, setMessages] = React.useState<IMessagePayload[]>([]);
+  // recoil states
+  const room = useRecoilValue(roomState);
+  const [socketData, setSocketState] = useRecoilState(socketState);
 
-    return (
-        <>
-            <Head title={"Home"} />
-            <div className="mt-[80px] mx-container">
-                <SearchScreen />
-                <ActiveUsersSection />
-                <section className="w-full flex flex-col justify-start items-start my-6">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                        <ConversationCard
-                            key={v4()}
-                            name={"Username"}
-                            peek={
-                                "Message that was sent previously. This is a example of a long message"
-                            }
-                            unread={item % 2 === 0}
-                            timestamp={"09:30 am"}
-                            active={item % 2 === 0}
-                        />
-                    ))}
-                </section>
-            </div>
-            <Footer />
-        </>
-    );
-};
+  /**
+   * Update the socket state with socket id and username on page load
+   */
+  React.useEffect(() => {
+    // Wait for the socket to start then set the state
+    socket.on("connect", () => {
+      setSocketState({
+        socketId: socket.id,
+        username: "Temujin",
+      });
+    });
+  }, [setSocketState]);
 
-export async function getStaticProps(ctx: NextPageContext) {
-    return {
-        props: { message: "Next.js TailwindCSS starter template" },
+  /**
+   * Listen to the message:receive event
+   */
+  React.useEffect(() => {
+    socket.on("connect", () => {
+      receiveMessage();
+    });
+  }, []);
+
+  /**
+   * Send the message to the server
+   */
+  function sendMessage(): void {
+    // create the payload
+    const payload: IMessagePayload = {
+      sender_id: socketData.socketId,
+      receiver_id: room.roomName ? room.roomName : "server",
+      body: message,
     };
-}
+
+    // send message to the room if the user is joined to the room
+    if (!room.isJoined && !room.roomName) {
+      // send the payload to the server
+      socket.emit("message:send", payload);
+    } else {
+      socket.emit("message:room", payload);
+    }
+    // update messages with the payload
+    setMessages((prev) => [...prev, payload]);
+    // reset the input field
+    setMessage("");
+  }
+
+  /**
+   * Listen to the incoming message
+   */
+  function receiveMessage(): void {
+    socket.on("message:incoming", (payload) => {
+      setMessages((prev) => [...prev, payload]);
+    });
+  }
+
+  return (
+    <>
+      <Header socket={socket} />
+      <main className="flex flex-col justify-between p-4 items-center h-screen overflow-hidden w-full">
+        <MessageView messages={messages} />
+
+        <form
+          action="submit"
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendMessage();
+          }}
+          className="flex flex-row p-4 justify-center items-center gap-2 bg-white fixed bottom-0 left-0 right-0 h-[76px]"
+        >
+          <input
+            type="text"
+            placeholder="Message..."
+            value={message}
+            onChange={(e) => {
+              setMessage(e.currentTarget.value);
+            }}
+            className="bg-gray-100 p-2 w-full rounded-md outline-none border-transparent border-2 focus:border-blue-500"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 px-4 rounded-md"
+          >
+            Send
+          </button>
+        </form>
+      </main>
+    </>
+  );
+};
 
 export default Home;

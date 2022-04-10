@@ -1,4 +1,2 @@
-export * from "./SearchBar";
-export * from "./ActiveUserBall";
-export * from "./ConversationAvatar";
-export * from "./MessageView";
+export * from "./MessageView/MessageView";
+export * from "./Header";
